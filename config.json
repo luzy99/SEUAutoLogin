@@ -1,0 +1,34 @@
+{
+    "user": {
+        "cardnum": "你的一卡通号",
+        "password": "登录密码"
+    },
+    "dailyReport": {
+        "school": {
+            "DZ_JSDTCJTW": 36.5,
+            "DZ_SZWZLX": "002",
+            "DZ_SZWZLX_DISPLAY": "在校内",
+            "LOCATION_PROVINCE_CODE": "",
+            "LOCATION_PROVINCE_CODE_DISPLAY": "",
+            "LOCATION_CITY_CODE": "",
+            "LOCATION_CITY_CODE_DISPLAY": "",
+            "LOCATION_COUNTY_CODE": "",
+            "LOCATION_COUNTY_CODE_DISPLAY": "",
+            "DZ_SZXQ": "002",
+            "DZ_SZXQ_DISPLAY": "九龙湖校区"
+        },
+        "home": {
+            "DZ_JSDTCJTW": 36.555,
+            "DZ_SZWZLX": "003",
+            "DZ_SZWZLX_DISPLAY": "在校外(在南京以外)",
+            "LOCATION_PROVINCE_CODE": "110100",
+            "LOCATION_PROVINCE_CODE_DISPLAY": "北京市",
+            "LOCATION_CITY_CODE": "110100",
+            "LOCATION_CITY_CODE_DISPLAY": "北京市",
+            "LOCATION_COUNTY_CODE": "110101",
+            "LOCATION_COUNTY_CODE_DISPLAY": "市辖区",
+            "DZ_SZXQ": "",
+            "DZ_SZXQ_DISPLAY": ""
+        }
+    }
+}
