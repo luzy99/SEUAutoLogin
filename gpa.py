@@ -1,5 +1,6 @@
 # encoding=utf-8
 import json
+import argparse
 from login import login
 
 
@@ -72,6 +73,29 @@ def computeGpa(score):
 
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Test for argparse')
+    parser.add_argument(
+        '--term', '-t', help='学期 20(计算20-21学年所有学期), 2020-2021-1(指定某一学期)', default='2020-2021-1')
+    args = parser.parse_args()
+
+    termList = ['2020-2021-1']
+    try:
+        termstr = str(args.term)
+        if len(termstr) == 11:
+            termList = [termstr]
+        elif len(termstr) == 2:
+            yy = int(termstr)
+            termList = []
+            for i in range(1, 5):
+                tmp = "20%d-20%d-%d" % (yy, yy + 1, i)
+                termList.append(tmp)
+        else:
+            print("参数错误！")
+            exit()
+    except Exception:
+        print("参数错误！")
+        exit()
+
     ss = login(configs['user']['cardnum'], configs['user']['password'])
     if ss:
-        getGradeList(ss, ['2020-2021-1'])
+        getGradeList(ss, termList)

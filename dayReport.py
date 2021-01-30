@@ -1,4 +1,5 @@
 # encoding=utf-8
+import argparse
 import datetime
 import json
 from login import login
@@ -84,6 +85,10 @@ def get_report_data(ss):
 
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Test for argparse')
+    parser.add_argument(
+        '--config', '-c', help='采用的配置名称 如 school, home', default='')
+    args = parser.parse_args()
     ss = login(configs['user']['cardnum'], configs['user']['password'])
     if ss:
-        doReport(ss)
+        doReport(ss, args.config)
