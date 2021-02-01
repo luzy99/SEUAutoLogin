@@ -71,15 +71,20 @@ def doReport(session, mode=''):
 def get_report_data(ss):
     # 进入填报页面（获取sessionid）
     ss.get("http://ehall.seu.edu.cn/appShow?appId=5821102911870447")
-    url = "http://ehall.seu.edu.cn/qljfwapp2/sys/lwReportEpidemicSeu/modules/dailyReport/getMyDailyReportDatas.do"
-    params = {'rysflb': 'BKS', 'pageSize': 10, 'pageNumber': 1}
-    res = ss.post(url, data=params)
+    latest_url = "http://ehall.seu.edu.cn/qljfwapp2/sys/lwReportEpidemicSeu/modules/dailyReport/getLatestDailyReportData.do"
+    wid_url = "http://ehall.seu.edu.cn/qljfwapp2/sys/lwReportEpidemicSeu/mobile/dailyReport/getMyTodayReportWid.do"
+    res = ss.get(latest_url)
+    wid_res = ss.get(wid_url)
     try:
         last_report = json.loads(
-            res.text)['datas']['getMyDailyReportDatas']['rows'][0]
-        # print(last_report)
+            res.text)['datas']['getLatestDailyReportData']['rows'][0]
+        # 填入今日WID
+        wid = json.loads(
+            wid_res.text)['datas']['getMyTodayReportWid']['rows'][0]['WID']
+        last_report['WID'] = wid
+        print(last_report)
     except Exception:
-        print("【获取历史记录失败，请手动填报】")
+        print("【获取填报信息失败，请手动填报】")
         return False
     return last_report
 
