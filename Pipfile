@@ -1,0 +1,15 @@
+[[source]]
+url = "https://pypi.tuna.tsinghua.edu.cn/simple/"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+requests = "~=2.23.0"
+beautifulsoup4 = "~=4.9.3"
+Js2Py = "~=0.70"
+
+[dev-packages]
+pyinstaller = "*"
+
+[requires]
+python_version = "3.7"

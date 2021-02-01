@@ -13,7 +13,7 @@ def login(cardnum, password):
     #  获取登录页面表单，解析隐藏值
     url = "https://newids.seu.edu.cn/authserver/login?goto=http://my.seu.edu.cn/index.portal"
     res = ss.get(url)
-    soup = BeautifulSoup(res.text, 'lxml')
+    soup = BeautifulSoup(res.text, 'html.parser')
     attrs = soup.select('[tabid="01"] input[type="hidden"]')
     for k in attrs:
         if k.has_attr('name'):
