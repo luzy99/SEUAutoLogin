@@ -2,6 +2,7 @@
 import argparse
 import datetime
 import json
+import random
 from login import login
 
 # 加载全局配置
@@ -16,12 +17,13 @@ def load_params(ss, mode):
     if json_form is False:
         return False
     params = {
-        "DZ_JSDTCJTW": 37,
+        "DZ_JSDTCJTW": 36.5,
         "DZ_DBRQ": "%Y-%m-%d",
         "CZRQ": "%Y-%m-%d %H:%M:%S",
         "CREATED_AT": "%Y-%m-%d %H:%M:%S",
         "NEED_CHECKIN_DATE": "%Y-%m-%d"
     }
+    params["DZ_JSDTCJTW"] = 36 + random.randint(1, 10) / 10
     try:
         local = configs['dailyReport'][mode]
         params.update(local)
@@ -82,7 +84,7 @@ def get_report_data(ss):
         wid = json.loads(
             wid_res.text)['datas']['getMyTodayReportWid']['rows'][0]['WID']
         last_report['WID'] = wid
-        print(last_report)
+        # print(last_report)
     except Exception:
         print("【获取填报信息失败，请手动填报】")
         return False
