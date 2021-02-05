@@ -102,10 +102,11 @@ def get_report_data(ss):
         tempFormData['DEPT_NAME'] = userInfo['DEPT_NAME']
 
         print(tempFormData)
-    except Exception:
+    except Exception as e:
         print("【获取填报信息失败，请手动填报】")
-        return False
-    return last_report
+        print(e)
+        exit()
+    return tempFormData
 
 
 if __name__ == '__main__':
