@@ -3,30 +3,20 @@ import argparse
 import datetime
 import json
 import random
+
+from bs4 import BeautifulSoup
 from login import login
 
 # 加载全局配置
 with open("./config.json", "r", encoding="utf-8") as f:
     configs = f.read()
 configs = json.loads(configs)
+isDebug = False
 
-
-def str2bool(v):
-    if isinstance(v, bool):
-        return v
-    if v.lower() in ('yes', 'true', 't', 'y', '1'):
-        return True
-    elif v.lower() in ('no', 'false', 'f', 'n', '0'):
-        return False
-    else:
-        raise argparse.ArgumentTypeError('Boolean value expected.')
-
-
-def load_params(ss, mode, force):
+def load_params(ss, mode):
     '''合并填报参数'''
     json_form = get_report_data(ss)  # 获取昨日填报信息
-    if json_form is False:
-        return False
+
     params = {
         "DZ_JSDTCJTW": 36.5,
         "DZ_DBRQ": "%Y-%m-%d",
@@ -46,12 +36,6 @@ def load_params(ss, mode, force):
 
     # get time
     today = datetime.datetime.now()
-    if today.hour >= 15:  # 超过填报时间
-        if force:
-            print("【超过填报时间，但继续填报】")
-        else:
-            print("【超过填报时间！放弃填报】")
-            return False
     yesterday = today - datetime.timedelta(days=1)
 
     today_list = ['CZRQ', 'CREATED_AT', 'NEED_CHECKIN_DATE']
@@ -67,7 +51,7 @@ def load_params(ss, mode, force):
     return json_form
 
 
-def doReport(session, mode='', force=False):
+def doReport(session, mode=''):
     """
     session: 已登录的 requests.session 对象
     mode:  填报配置 home, school 等，(留空使用昨天的填报信息)，可自行修改 config.json 文件
@@ -77,10 +61,8 @@ def doReport(session, mode='', force=False):
 
     url = 'http://ehall.seu.edu.cn/qljfwapp2/sys/lwReportEpidemicSeu/mobile/dailyReport/T_REPORT_EPIDEMIC_CHECKIN_SAVE.do'
 
-    json_form = load_params(session, mode, force)
-    if json_form == False:
-        print("参数合并失败！放弃填报")
-        return
+    json_form = load_params(session, mode)
+
     res = session.post(url, data=json_form)
     try:
         if json.loads(res.text)['datas']['T_REPORT_EPIDEMIC_CHECKIN_SAVE'] == 1:
@@ -88,8 +70,10 @@ def doReport(session, mode='', force=False):
         else:
             print("填报失败！")
     except Exception:
-        if res.text.find('您今日已提交过报平安！') != -1:
-            print("重复填报！")
+        soup = BeautifulSoup(res.text, "html.parser")
+        tag = soup.select('.underscore.bh-mt-16')
+        if len(tag) > 1:
+            print(tag[0].text.replace('\n', ''))
         else:
             print(res.text)
             print("填报失败！")
@@ -126,8 +110,8 @@ def get_report_data(ss):
         tempFormData['USER_NAME'] = userInfo['USER_NAME']
         tempFormData['DEPT_CODE'] = userInfo['DEPT_CODE']  # 学院编号
         tempFormData['DEPT_NAME'] = userInfo['DEPT_NAME']
-
-        print(tempFormData)
+        if isDebug:
+            print(tempFormData)
     except Exception as e:
         print("【获取填报信息失败，请手动填报】")
         print(e)
@@ -140,8 +124,19 @@ if __name__ == '__main__':
     parser.add_argument(
         '--config', '-c', help='采用的配置名称 如 school, home', default='')
     parser.add_argument(
-        '--force', '-f', help='15:00 后是否仍然填报', default=False, type=str2bool)
+        '--force', '-f', help='15:00 后是否仍然填报', action='store_true')
+    parser.add_argument(
+        '--debug', '-d', help='显示调试信息', action='store_true')
     args = parser.parse_args()
+    isDebug = args.debug
+
+    today = datetime.datetime.now()
+    if today.hour >= 15:  # 超过填报时间
+        if args.force:
+            print("【超过填报时间，但继续填报】")
+        else:
+            print("【超过填报时间！放弃填报】")
+            exit()
     ss = login(configs['user']['cardnum'], configs['user']['password'])
     if ss:
-        doReport(ss, args.config, args.force)
+        doReport(ss, args.config)
