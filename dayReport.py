@@ -11,8 +11,19 @@ with open("./config.json", "r", encoding="utf-8") as f:
 configs = json.loads(configs)
 
 
-# 合并填报参数
-def load_params(ss, mode):
+def str2bool(v):
+    if isinstance(v, bool):
+        return v
+    if v.lower() in ('yes', 'true', 't', 'y', '1'):
+        return True
+    elif v.lower() in ('no', 'false', 'f', 'n', '0'):
+        return False
+    else:
+        raise argparse.ArgumentTypeError('Boolean value expected.')
+
+
+def load_params(ss, mode, force):
+    '''合并填报参数'''
     json_form = get_report_data(ss)  # 获取昨日填报信息
     if json_form is False:
         return False
@@ -24,14 +35,23 @@ def load_params(ss, mode):
         "NEED_CHECKIN_DATE": "%Y-%m-%d"
     }
     params["DZ_JSDTCJTW"] = 36 + random.randint(1, 10) / 10
-    try:
-        local = configs['dailyReport'][mode]
-        params.update(local)
-    except Exception:
-        print("【加载本地配置失败，使用昨日信息进行填报】")
+    if mode != '':
+        try:
+            local = configs['dailyReport'][mode]
+            params.update(local)
+        except Exception:
+            print("【加载本地配置失败，使用昨日信息进行填报】")
+    else:
+        print("【使用昨日信息进行填报】")
 
     # get time
     today = datetime.datetime.now()
+    if today.hour >= 15:  # 超过填报时间
+        if force:
+            print("【超过填报时间，但继续填报】")
+        else:
+            print("【超过填报时间！放弃填报】")
+            return False
     yesterday = today - datetime.timedelta(days=1)
 
     today_list = ['CZRQ', 'CREATED_AT', 'NEED_CHECKIN_DATE']
@@ -47,7 +67,7 @@ def load_params(ss, mode):
     return json_form
 
 
-def doReport(session, mode=''):
+def doReport(session, mode='', force=False):
     """
     session: 已登录的 requests.session 对象
     mode:  填报配置 home, school 等，(留空使用昨天的填报信息)，可自行修改 config.json 文件
@@ -57,7 +77,10 @@ def doReport(session, mode=''):
 
     url = 'http://ehall.seu.edu.cn/qljfwapp2/sys/lwReportEpidemicSeu/mobile/dailyReport/T_REPORT_EPIDEMIC_CHECKIN_SAVE.do'
 
-    json_form = load_params(session, mode)
+    json_form = load_params(session, mode, force)
+    if json_form == False:
+        print("参数合并失败！放弃填报")
+        return
     res = session.post(url, data=json_form)
     try:
         if json.loads(res.text)['datas']['T_REPORT_EPIDEMIC_CHECKIN_SAVE'] == 1:
@@ -65,8 +88,11 @@ def doReport(session, mode=''):
         else:
             print("填报失败！")
     except Exception:
-        print(res.text)
-        print("填报失败！")
+        if res.text.find('您今日已提交过报平安！') != -1:
+            print("重复填报！")
+        else:
+            print(res.text)
+            print("填报失败！")
 
 
 # 获取昨日填报信息
@@ -98,7 +124,7 @@ def get_report_data(ss):
         tempFormData['CLASS'] = userInfo['CLASS']
         tempFormData['RYSFLB'] = userInfo['RYSFLB']
         tempFormData['USER_NAME'] = userInfo['USER_NAME']
-        tempFormData['DEPT_CODE'] = userInfo['DEPT_CODE']
+        tempFormData['DEPT_CODE'] = userInfo['DEPT_CODE']  # 学院编号
         tempFormData['DEPT_NAME'] = userInfo['DEPT_NAME']
 
         print(tempFormData)
@@ -113,7 +139,9 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Test for argparse')
     parser.add_argument(
         '--config', '-c', help='采用的配置名称 如 school, home', default='')
+    parser.add_argument(
+        '--force', '-f', help='15:00 后是否仍然填报', default=False, type=str2bool)
     args = parser.parse_args()
     ss = login(configs['user']['cardnum'], configs['user']['password'])
     if ss:
-        doReport(ss, args.config)
+        doReport(ss, args.config, args.force)
