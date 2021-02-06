@@ -2,13 +2,23 @@
 import argparse
 import datetime
 import json
+import os
 import random
+import time
+import logging
+
 from login import login
 
 # 加载全局配置
 with open("./config.json", "r", encoding="utf-8") as f:
     configs = f.read()
 configs = json.loads(configs)
+
+if not os.path.isdir('logs'):
+    os.mkdir('logs')
+logFile = 'logs/' + time.strftime("%y%m%d-%H%M%S", time.localtime()) + '.log'
+# everything will stdout
+logging.basicConfig(filename=logFile, level=logging.DEBUG)
 
 
 def str2bool(v):
@@ -40,17 +50,17 @@ def load_params(ss, mode, force):
             local = configs['dailyReport'][mode]
             params.update(local)
         except Exception:
-            print("【加载本地配置失败，使用昨日信息进行填报】")
+            logging.warning("加载本地配置失败，使用昨日信息进行填报")
     else:
-        print("【使用昨日信息进行填报】")
+        logging.info("使用昨日信息进行填报")
 
     # get time
     today = datetime.datetime.now()
     if today.hour >= 15:  # 超过填报时间
         if force:
-            print("【超过填报时间，但继续填报】")
+            logging.info("超过填报时间，但继续填报")
         else:
-            print("【超过填报时间！放弃填报】")
+            logging.warning("超过填报时间！放弃填报")
             return False
     yesterday = today - datetime.timedelta(days=1)
 
@@ -79,20 +89,20 @@ def doReport(session, mode='', force=False):
 
     json_form = load_params(session, mode, force)
     if json_form == False:
-        print("参数合并失败！放弃填报")
+        logging.warning("参数合并失败！放弃填报")
         return
     res = session.post(url, data=json_form)
     try:
         if json.loads(res.text)['datas']['T_REPORT_EPIDEMIC_CHECKIN_SAVE'] == 1:
-            print("填报成功！")
+            logging.info("填报成功！")
         else:
-            print("填报失败！")
+            logging.warning("填报失败！")
     except Exception:
         if res.text.find('您今日已提交过报平安！') != -1:
-            print("重复填报！")
+            logging.warning("重复填报！")
         else:
-            print(res.text)
-            print("填报失败！")
+            logging.debug(res.text)
+            logging.warning("填报失败！")
 
 
 # 获取昨日填报信息
@@ -127,10 +137,10 @@ def get_report_data(ss):
         tempFormData['DEPT_CODE'] = userInfo['DEPT_CODE']  # 学院编号
         tempFormData['DEPT_NAME'] = userInfo['DEPT_NAME']
 
-        print(tempFormData)
+        logging.debug(tempFormData)
     except Exception as e:
-        print("【获取填报信息失败，请手动填报】")
-        print(e)
+        logging.error("获取填报信息失败，请手动填报")
+        logging.error(e)
         exit()
     return tempFormData
 
