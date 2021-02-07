@@ -13,6 +13,7 @@ with open("./config.json", "r", encoding="utf-8") as f:
 configs = json.loads(configs)
 isDebug = False
 
+
 def load_params(ss, mode):
     '''合并填报参数'''
     json_form = get_report_data(ss)  # 获取昨日填报信息
@@ -76,7 +77,7 @@ def doReport(session, mode=''):
             print(tag[0].text.replace('\n', ''))
         else:
             print(res.text)
-            print("填报失败！")
+        print("填报失败！")
 
 
 # 获取昨日填报信息
@@ -90,14 +91,26 @@ def get_report_data(ss):
     wid_res = ss.get(wid_url)
     userinfo_res = ss.post(userinfo_url)
     try:
+        tempFormData = {}
         userInfo = json.loads(userinfo_res.text)['data']
-        last_report = json.loads(
-            last_res.text)['datas']['getLatestDailyReportData']['rows'][0]
-        tempFormData = json.loads(
-            wid_res.text)['datas']['getMyTodayReportWid']['rows'][0]
+        # 载入当天填报模板
+        try:
+            wid_data = json.loads(
+                wid_res.text)['datas']['getMyTodayReportWid']['rows'][0]
+            tempFormData.update(wid_data)
+        except Exception:
+            print('【getMyTodayReportWid FAILED】')
+            raise       # 待测：不加wid是否正常
 
         # 载入昨日填报信息
-        tempFormData.update(last_report)
+        try:
+            last_report = json.loads(
+                last_res.text)['datas']['getLatestDailyReportData']['rows'][0]
+            tempFormData.update(last_report)
+        except Exception:
+            print('getLatestDailyReportData FAILED】')
+            raise
+
         # 载入用户信息
         tempFormData['USER_ID'] = configs['user']['cardnum']
         tempFormData['PHONE_NUMBER'] = userInfo['PHONE_NUMBER']
@@ -113,8 +126,8 @@ def get_report_data(ss):
         if isDebug:
             print(tempFormData)
     except Exception as e:
-        print("【获取填报信息失败，请手动填报】")
         print(e)
+        print("【获取填报信息失败，请手动填报】")
         exit()
     return tempFormData
 
