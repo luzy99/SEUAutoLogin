@@ -100,7 +100,7 @@ def get_report_data(ss):
             tempFormData.update(wid_data)
         except Exception:
             print('【getMyTodayReportWid FAILED】')
-            raise       # 待测：不加wid是否正常
+            # raise       # 经测试：wid为空无影响
 
         # 载入昨日填报信息
         try:
