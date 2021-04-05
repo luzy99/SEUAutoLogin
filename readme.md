@@ -1,10 +1,10 @@
 # SEU Auto Login
 
-东南大学信息门户自动登录，采用requests库，获取登录session，无需浏览器依赖，全平台通用。
+东南大学信息门户自动登录，采用requests库，获取登录session，无需浏览器依赖，全平台通用。**目前已添加GitHub Action自动部署功能，无需服务器，一键fork部署！！！🎉**
 
 **本项目仅供学习使用**
 
-- 🌡**自动每日健康上报**
+- 🌡**自动每日健康上报** [![daily report](https://github.com/luzy99/SEUAutoLogin/actions/workflows/python-app.yml/badge.svg)](https://github.com/luzy99/SEUAutoLogin/actions/workflows/python-app.yml)
 - 💯**绩点计算**
 
 ## 📋目录结构
@@ -146,4 +146,35 @@ pip install -r requirements.txt
   学年必修总学分：10.000000, 学年绩点：4.629412
   ```
 
-  
+
+---
+
+## Github Action自动部署！
+
+1. 先`fork`本仓库
+
+   ![image-20210405124959083](https://cdn.jsdelivr.net/gh/luzy99/cdn@latest/img/20210405130131.png)
+
+2. 进入您账号下的`SEUAutoLogin`仓库，点击`Settings`，找到`Secrets`，点击 `New repository secret`新建仓库密钥
+
+   ![image-20210405124603956](https://cdn.jsdelivr.net/gh/luzy99/cdn@latest/img/20210405130137.png)
+
+3. 新建2个key：`CARD_NUM`, `PASSWORD`，输入你的**一卡通号**和**密码**
+
+   ![image-20210405125326461](https://cdn.jsdelivr.net/gh/luzy99/cdn@latest/img/20210405130141.png)
+
+   ​	如下图：
+
+   ![image-20210405125412870](https://cdn.jsdelivr.net/gh/luzy99/cdn@latest/img/20210405130145.png)
+
+4. 至此已经设置完成（默认每天北京时间**8点31分**上报），可以先手动运行一下试试。
+
+   步骤如下图：
+
+   ![image-20210405125843879](https://cdn.jsdelivr.net/gh/luzy99/cdn@latest/img/20210405130151.png)
+
+5. 运行结果
+
+   ![image-20210405130018830](https://cdn.jsdelivr.net/gh/luzy99/cdn@latest/img/20210405130155.png)
+
+   
