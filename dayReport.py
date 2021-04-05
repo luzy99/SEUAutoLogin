@@ -140,8 +140,18 @@ if __name__ == '__main__':
         '--force', '-f', help='15:00 后是否仍然填报', action='store_true')
     parser.add_argument(
         '--debug', '-d', help='显示调试信息', action='store_true')
+    parser.add_argument(
+        '--user', '-u', help='一卡通号', default='')
+    parser.add_argument(
+        '--password', '-p', help='密码', default='')
+
     args = parser.parse_args()
     isDebug = args.debug
+
+    # 覆盖账号信息
+    if args.user != '' and args.password != '':
+        configs['user']['cardnum'] = args.user
+        configs['user']['password'] = args.password
 
     today = datetime.datetime.now()
     if today.hour >= 15:  # 超过填报时间
