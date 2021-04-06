@@ -5,7 +5,7 @@ name: daily report
 
 on:
   schedule:
-    - cron: "42 2 * * *"
+    - cron: "31 0 * * *"
   workflow_dispatch:
 
 jobs:
@@ -25,4 +25,4 @@ jobs:
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: do report
       run: |
-        python ./dayReport.py -d -u ${{ secrets.CARD_NUM }} -p ${{ secrets.PASSWORD }}
+        python ./dayReport.py -u ${{ secrets.CARD_NUM }} -p ${{ secrets.PASSWORD }}
