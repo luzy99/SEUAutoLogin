@@ -3,6 +3,7 @@ import argparse
 import datetime
 import json
 import random
+import pytz
 
 from bs4 import BeautifulSoup
 from login import login
@@ -153,7 +154,8 @@ if __name__ == '__main__':
         configs['user']['cardnum'] = args.user
         configs['user']['password'] = args.password
 
-    today = datetime.datetime.now()
+    today = datetime.datetime.now(pytz.timezone('Asia/Shanghai'))
+    print(today)
     if today.hour >= 15:  # 超过填报时间
         if args.force:
             print("【超过填报时间，但继续填报】")
