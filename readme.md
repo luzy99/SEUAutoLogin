@@ -4,7 +4,7 @@
 
 **本项目仅供学习使用**
 
-- 🌡**自动每日健康上报** [![daily report](https://github.com/luzy99/SEUAutoLogin/actions/workflows/python-app.yml/badge.svg)](https://github.com/luzy99/SEUAutoLogin/actions/workflows/python-app.yml)
+- 🌡**自动每日健康上报** [![daily report](https://github.com/luzy99/SEUAutoLogin/actions/workflows/daily-report.yml/badge.svg)](https://github.com/luzy99/SEUAutoLogin/actions/workflows/daily-report.yml)
 - 💯**绩点计算**
 
 ## 📋目录结构
@@ -38,7 +38,7 @@ beautifulsoup4~=4.9.3
 pip install -r requirements.txt
 ```
 
-## 📐功能说明
+## 📐功能说明（本地部署）
 
 **请先在`config.json`中填写好一卡通号和密码**
 
