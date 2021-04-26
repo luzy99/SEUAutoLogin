@@ -30,7 +30,7 @@ def login(cardnum, password):
     json_res = json.loads(res.text)
     try:
         name = json_res["userName"]
-        print(name, " 登陆成功！")
+        print(name[0], "** 登陆成功！")
     except Exception:
         print("认证失败！")
         return False
