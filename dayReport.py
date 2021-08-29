@@ -114,12 +114,12 @@ def get_report_data(ss):
 
         # 载入用户信息
         tempFormData['USER_ID'] = configs['user']['cardnum']
-        tempFormData['PHONE_NUMBER'] = userInfo['PHONE_NUMBER']
+        # tempFormData['PHONE_NUMBER'] = userInfo['PHONE_NUMBER']
         tempFormData['IDCARD_NO'] = userInfo['IDENTITY_CREDENTIALS_NO']
         tempFormData['GENDER_CODE'] = userInfo['GENDER_CODE']
 
-        tempFormData['CLASS_CODE'] = userInfo['CLASS_CODE']
-        tempFormData['CLASS'] = userInfo['CLASS']
+        # tempFormData['CLASS_CODE'] = userInfo['CLASS_CODE']
+        # tempFormData['CLASS'] = userInfo['CLASS']
         tempFormData['RYSFLB'] = userInfo['RYSFLB']
         tempFormData['USER_NAME'] = userInfo['USER_NAME']
         tempFormData['DEPT_CODE'] = userInfo['DEPT_CODE']  # 学院编号
