@@ -161,7 +161,7 @@ if __name__ == '__main__':
             print("【超过填报时间，但继续填报】")
         else:
             print("【超过填报时间！放弃填报】")
-            exit()
+            #exit()
     ss = login(configs['user']['cardnum'], configs['user']['password'])
     if ss:
         doReport(ss, args.config)
