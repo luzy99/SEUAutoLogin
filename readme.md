@@ -7,6 +7,48 @@
 - 🌡**自动每日健康上报** [![daily report](https://github.com/luzy99/SEUAutoLogin/actions/workflows/daily-report.yml/badge.svg)](https://github.com/luzy99/SEUAutoLogin/actions/workflows/daily-report.yml)
 - 💯**绩点计算**
 
+## 更新日志
+
+**2022-06-23：重大bug，已适配信息门户新登录逻辑，请使用老版本的用户迅速更新至此版本，否作无法正常登录打卡！！！**
+
+## 使用指南：Github Action自动部署！
+
+1. 先`fork`本仓库
+
+   ![image-20210405124959083](https://cdn.jsdelivr.net/gh/luzy99/cdn@latest/img/20210405130131.png)
+
+2. 进入您账号下的`SEUAutoLogin`仓库，点击`Settings`，找到`Secrets`，点击 `New repository secret`新建仓库密钥
+
+   ![image-20210405124603956](https://cdn.jsdelivr.net/gh/luzy99/cdn@latest/img/20210405130137.png)
+
+3. 新建2个key：`CARD_NUM`, `PASSWORD`，输入你的**一卡通号**和**密码**
+
+   ![image-20210405125326461](https://cdn.jsdelivr.net/gh/luzy99/cdn@latest/img/20210405130141.png)
+
+   ​	如下图：
+
+   ![image-20210405125412870](https://cdn.jsdelivr.net/gh/luzy99/cdn@latest/img/20210405130145.png)
+
+4. 至此已经设置完成（默认每天北京时间**8点31分**上报），可以先手动运行一下试试。
+
+   步骤如下图：
+
+   ![image-20210405125843879](https://cdn.jsdelivr.net/gh/luzy99/cdn@latest/img/20210405130151.png)
+
+5. 运行结果
+
+   ![image-20210405130018830](https://cdn.jsdelivr.net/gh/luzy99/cdn@latest/img/20210405130155.png)
+
+   
+
+### ⚠如果无法自动执行，在readme文件中随便加个回车，再commit，push即可
+
+---
+
+
+
+>  以下为本地开发指南，欢迎有兴趣的小伙伴参与到本项目的维护工作中~
+
 ## 📋目录结构
 
 ```sh
@@ -146,37 +188,3 @@ pip install -r requirements.txt
   学年必修总学分：10.000000, 学年绩点：4.629412
   ```
 
-
----
-
-## Github Action自动部署！
-
-1. 先`fork`本仓库
-
-   ![image-20210405124959083](https://cdn.jsdelivr.net/gh/luzy99/cdn@latest/img/20210405130131.png)
-
-2. 进入您账号下的`SEUAutoLogin`仓库，点击`Settings`，找到`Secrets`，点击 `New repository secret`新建仓库密钥
-
-   ![image-20210405124603956](https://cdn.jsdelivr.net/gh/luzy99/cdn@latest/img/20210405130137.png)
-
-3. 新建2个key：`CARD_NUM`, `PASSWORD`，输入你的**一卡通号**和**密码**
-
-   ![image-20210405125326461](https://cdn.jsdelivr.net/gh/luzy99/cdn@latest/img/20210405130141.png)
-
-   ​	如下图：
-
-   ![image-20210405125412870](https://cdn.jsdelivr.net/gh/luzy99/cdn@latest/img/20210405130145.png)
-
-4. 至此已经设置完成（默认每天北京时间**8点31分**上报），可以先手动运行一下试试。
-
-   步骤如下图：
-
-   ![image-20210405125843879](https://cdn.jsdelivr.net/gh/luzy99/cdn@latest/img/20210405130151.png)
-
-5. 运行结果
-
-   ![image-20210405130018830](https://cdn.jsdelivr.net/gh/luzy99/cdn@latest/img/20210405130155.png)
-
-   
-
-### ⚠如果无法自动执行，在readme文件中随便加个回车，再commit，push即可
