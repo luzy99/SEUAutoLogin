@@ -11,6 +11,11 @@
 
 **2022-06-26：重大bug，已适配信息门户新登录逻辑，请使用老版本的用户迅速更新至此版本，否作无法正常登录打卡！！！**
 
+更新方法：在自己 `fork` 的仓库中点击 `Fetch upstream`
+
+![图片](https://user-images.githubusercontent.com/32357397/177259805-ad0d36c5-deb6-4330-b709-a6e5d148ce14.png)
+
+
 ## 使用指南：Github Action自动部署！
 
 1. 先`fork`本仓库
