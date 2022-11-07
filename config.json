@@ -15,7 +15,13 @@
             "LOCATION_COUNTY_CODE": "",
             "LOCATION_COUNTY_CODE_DISPLAY": "",
             "DZ_SZXQ": "002",
-            "DZ_SZXQ_DISPLAY": "九龙湖校区"
+            "DZ_SZXQ_DISPLAY": "九龙湖校区",
+            "DZ_DQWZ": "江苏省, 南京市, 江宁区",
+            "DZ_DQWZ_SF": "江苏省",
+            "DZ_DQWZ_CS": "南京市",
+            "DZ_DQWZ_QX": "江宁区",
+            "DZ_DQWZ_JD": 118.8,
+            "DZ_DQWZ_WD": 31.8
         },
         "home": {
             "DZ_JSDTCJTW": 36.555,
@@ -28,7 +34,13 @@
             "LOCATION_COUNTY_CODE": "110101",
             "LOCATION_COUNTY_CODE_DISPLAY": "市辖区",
             "DZ_SZXQ": "",
-            "DZ_SZXQ_DISPLAY": ""
+            "DZ_SZXQ_DISPLAY": "",
+            "DZ_DQWZ": "北京市, 北京市, 市辖区",
+            "DZ_DQWZ_SF": "北京市",
+            "DZ_DQWZ_CS": "北京市",
+            "DZ_DQWZ_QX": "市辖区",
+            "DZ_DQWZ_JD": 116.4,
+            "DZ_DQWZ_WD": 39.9
         }
     }
 }

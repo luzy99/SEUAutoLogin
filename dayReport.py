@@ -24,9 +24,17 @@ def load_params(ss, mode):
         "DZ_DBRQ": "%Y-%m-%d",
         "CZRQ": "%Y-%m-%d %H:%M:%S",
         "CREATED_AT": "%Y-%m-%d %H:%M:%S",
-        "NEED_CHECKIN_DATE": "%Y-%m-%d"
+        "NEED_CHECKIN_DATE": "%Y-%m-%d",
+        "DZ_DQWZ": "江苏省, 南京市, 江宁区",
+        "DZ_DQWZ_SF": "江苏省",
+        "DZ_DQWZ_CS": "南京市",
+        "DZ_DQWZ_QX": "江宁区",
+        "DZ_DQWZ_WD": 31.882,
+        "DZ_DQWZ_JD": 118.813,
     }
     params["DZ_JSDTCJTW"] = 36 + random.randint(1, 10) / 10
+    params["DZ_DQWZ_WD"] += random.random() *  (31.893 - 31.882)
+    params["DZ_DQWZ_JD"] += random.random() *  (118.830 - 118.813)
     if mode != '':
         try:
             local = configs['dailyReport'][mode]
